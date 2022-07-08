@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- <link href="/dist/output.css" rel="stylesheet"> -->
+</head>
+<body class="h-screen bg-gradient-to-b from-[#007c90] to-[#004c66]" x-data="{ 'showModal': false, 'showAlert': false, result:0, weight:0, height:0, status:'',
+  cal() {
+    if (!isNaN(this.height) && !isNaN(this.weight) && this.height!=0 && this.weight!=0){
+      this.showModal = true;
+      this.showAlert = false;
+      this.result = (this.weight / Math.pow(this.height/100, 2)).toFixed(1);
+      this.status='Normal';
+      if(18.5>this.result){ this.status='Underweight'; };
+      if(this.result>=25){ this.status='Overweight'; };
+      if(this.result>=40){ this.status='Obese'; };
+    }else{
+      this.showAlert = true;
+    }
+  }
+}">
+  
+  <div class="grid place-content-center h-screen">
+    <div class="bg-white shadow-2xl rounded-3xl px-16 py-14">
+
+      <h1 class="text-3xl font-bold mt-0 mb-10 text-gray-700 tracking-wider">BMI Calculator</h1>
+
+      <form>
+        <div class="flex items-center mb-8 mx-16">
+          <label class="block text-gray-500 font-bold md:text-right mb-1 pr-8" for="inline-full-name">
+            Weight (kg)
+          </label>
+          <div class="w-80">
+            <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-gray-700" x-model="weight" id="weight" type="text">
+          </div>
+        </div>
+        
+        <div class="flex items-center mb-8 mx-16">
+          <label class="block text-gray-500 font-bold md:text-right mb-1 pr-8" for="inline-password">
+            Height (cm)
+          </label>
+          <div class="w-80">
+            <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-gray-700" x-model="height" id="height" type="text">
+          </div>
+        </div>
+
+
+        <div class="grid place-content-center">
+          <button class="shadow bg-[#007c90] hover:bg-[#004c66] focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded tracking-wide w-36 mt-6" type="button" @click="cal()">
+            Submit
+          </button>
+        </div>
+      </form>
+      
+    </div>
+    
+  <div class="text-red-400 text-sm ml-5 mt-3" x-show="showAlert">Please enter vaild data.</div>
+  
+  <div class="fixed inset-0 z-30 flex items-center justify-center overflow-auto bg-black bg-opacity-50" x-show="showModal">
+    <div class="w-1/2 h-1/4 px-6 py-4 mx-auto text-left bg-white rounded shadow-lg" @click.away="showModal = false">
+      <div class="flex items-center justify-between">
+        <h5 class="text-xl font-bold mt-5 ml-10 mb-5 text-gray-700 tracking-wider">Result</h5>
+  
+        <button type="button" class="z-50 cursor-pointer" @click="showModal = false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+        </button>
+      </div>
+      <div class="text-lg grid place-content-center h-1/2">
+        <div>Your BMI is <span x-text="result" class="ml-1 font-bold"></span>. It is <span x-text="status" class="ml-1 font-bold"></span>.</div>
+      </div>
+    </div>
+  </div>
+
+  
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  
+</body>
+</html>
